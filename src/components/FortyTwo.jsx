@@ -35,7 +35,15 @@ const LevelCard = ({ project }) => {
             <span className="card-status">{project.status}</span>
           </div>
         )}
-        <h4>{project.name}</h4>
+        <h4>
+          {project.subjectPdf ? (
+            <a href={project.subjectPdf} target="_blank" rel="noopener noreferrer">
+              {project.name}
+            </a>
+          ) : (
+            project.name
+          )}
+        </h4>
         <p>{project.description}</p>
         {project.skills && project.skills.length > 0 && (
           <div className="card-skills">

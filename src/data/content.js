@@ -6,9 +6,9 @@ export const personalInfo = {
 };
 
 export const introText = {
-  headline: "Software engineer building production systems",
-  description: `I spent three years at <strong>42</strong> learning to build everything from scratch — 
-    memory allocators, shells, game engines. Then I joined two startups as the sole engineer, 
+  headline: `Hey, I'm Abdellah. <br>I write code that ships to production.`,
+  description: `I spent three years at <strong>42</strong> learning to build everything from scratch —
+    memory allocators, shells, game engines. Then I joined two startups as the sole engineer,
     turning ideas into shipped products with <strong>95,000+ lines of production code</strong>.`,
 };
 
@@ -79,6 +79,7 @@ export const fortyTwoProjects = [
     status: "✓ 125/100",
     description: "Rebuilt the C standard library from scratch.",
     skills: ["C", "Memory", "Data Structures"],
+    subjectPdf: "https://cdn.jsdelivr.net/gh/Ian-Orwel/42-Cursus-Subjects@main/Cursus/libft/en.subject.pdf",
   },
   {
     num: "02",
@@ -87,6 +88,7 @@ export const fortyTwoProjects = [
     status: "✓ 100/100",
     description: "Recreated printf with variadic functions.",
     skills: ["Variadic Args", "Parsing"],
+    subjectPdf: "https://cdn.jsdelivr.net/gh/Ian-Orwel/42-Cursus-Subjects@main/Cursus/ft_printf/en.subject.pdf",
   },
   {
     num: "03",
@@ -95,6 +97,7 @@ export const fortyTwoProjects = [
     status: "✓ 125/100",
     description: "Read files line by line with one static variable.",
     skills: ["File I/O", "Buffers"],
+    subjectPdf: "https://cdn.jsdelivr.net/gh/Ian-Orwel/42-Cursus-Subjects@main/Cursus/get_next_line/en.subject.pdf",
   },
   {
     num: "04",
@@ -103,6 +106,7 @@ export const fortyTwoProjects = [
     status: "✓ 100/100",
     description: "Linux server from scratch. SSH, firewalls, policies.",
     skills: ["Linux", "Sysadmin"],
+    subjectPdf: "https://cdn.jsdelivr.net/gh/Ian-Orwel/42-Cursus-Subjects@main/Cursus/Born2beroot/en.subject.pdf",
   },
   {
     num: "05",
@@ -111,6 +115,7 @@ export const fortyTwoProjects = [
     status: "✓ 100/100",
     description: "Sort a stack with limited operations in minimal moves.",
     skills: ["Algorithms", "Optimization"],
+    subjectPdf: "https://cdn.jsdelivr.net/gh/Ian-Orwel/42-Cursus-Subjects@main/Cursus/push_swap/en.subject.pdf",
   },
   {
     num: "06",
@@ -119,6 +124,7 @@ export const fortyTwoProjects = [
     status: "✓ 125/100",
     description: "Client-server using only UNIX signals.",
     skills: ["Signals", "Bitwise"],
+    subjectPdf: "https://cdn.jsdelivr.net/gh/Ian-Orwel/42-Cursus-Subjects@main/Cursus/minitalk/en.subject.pdf",
   },
   {
     num: "07",
@@ -127,6 +133,7 @@ export const fortyTwoProjects = [
     status: "✓ 100/100",
     description: "2D game with MiniLibX. Sprites and movement.",
     skills: ["Graphics", "Game Dev"],
+    subjectPdf: "https://cdn.jsdelivr.net/gh/Ian-Orwel/42-Cursus-Subjects@main/Cursus/so_long/en.subject.pdf",
   },
   {
     num: "08",
@@ -135,6 +142,7 @@ export const fortyTwoProjects = [
     status: "✓ 100/100",
     description: "Dining philosophers. Threads, mutexes, deadlocks.",
     skills: ["Threading", "Concurrency"],
+    subjectPdf: "https://cdn.jsdelivr.net/gh/Ian-Orwel/42-Cursus-Subjects@main/Cursus/philosophers/en.subject.pdf",
   },
   {
     num: "09",
@@ -144,6 +152,7 @@ export const fortyTwoProjects = [
     description: "Bash from scratch. Lexer, parser, pipes, redirections, signals.",
     skills: ["Parsing", "Processes", "Signals"],
     type: "major",
+    subjectPdf: "https://cdn.jsdelivr.net/gh/Ian-Orwel/42-Cursus-Subjects@main/Cursus/minishell/en.subject.pdf",
   },
   {
     num: "10",
@@ -152,6 +161,7 @@ export const fortyTwoProjects = [
     status: "✓ 100/100",
     description: "IP addressing, subnetting, routing tables.",
     skills: ["TCP/IP", "Networking"],
+    subjectPdf: "https://cdn.jsdelivr.net/gh/Ian-Orwel/42-Cursus-Subjects@main/Cursus/NetPractice/en.subject.pdf",
   },
   {
     num: "11",
@@ -161,6 +171,7 @@ export const fortyTwoProjects = [
     description: "Wolfenstein-style raycaster. Game engine in pure C.",
     skills: ["Raycasting", "Math", "Graphics"],
     type: "major",
+    subjectPdf: "https://cdn.jsdelivr.net/gh/Ian-Orwel/42-Cursus-Subjects@main/Cursus/cub3d/en.subject.pdf",
   },
   {
     num: "12",
@@ -169,6 +180,7 @@ export const fortyTwoProjects = [
     status: "✓ 100/100",
     description: "C++ from zero. OOP, templates, STL. Ten modules.",
     skills: ["C++", "OOP", "Templates"],
+    subjectPdf: "https://cdn.jsdelivr.net/gh/Ian-Orwel/42-Cursus-Subjects@main/Cursus/CPP_Modules/CPP00/en.subject.pdf",
   },
   {
     num: "13",
@@ -177,6 +189,7 @@ export const fortyTwoProjects = [
     status: "✓ 100/100",
     description: "Docker infrastructure. NGINX, WordPress, MariaDB.",
     skills: ["Docker", "DevOps"],
+    subjectPdf: "https://cdn.jsdelivr.net/gh/Ian-Orwel/42-Cursus-Subjects@main/Cursus/inception/en.subject.pdf",
   },
   {
     num: "14",
@@ -186,6 +199,7 @@ export const fortyTwoProjects = [
     description: "Full-stack web app. Real-time multiplayer Pong with auth, chat, matchmaking.",
     skills: ["TypeScript", "NestJS", "WebSockets", "PostgreSQL"],
     type: "final",
+    subjectPdf: "https://cdn.jsdelivr.net/gh/Ian-Orwel/42-Cursus-Subjects@main/Cursus/ft_transcendence/en.subject.pdf",
   },
   {
     num: "∞",

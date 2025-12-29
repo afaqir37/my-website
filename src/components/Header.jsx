@@ -8,7 +8,7 @@ const Header = () => {
       <div className="container">
         <Nav />
         <div className="intro">
-          <h1>{introText.headline}</h1>
+          <h1 dangerouslySetInnerHTML={{ __html: introText.headline }} />
           <p dangerouslySetInnerHTML={{ __html: introText.description }} />
         </div>
       </div>
