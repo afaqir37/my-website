@@ -1,4 +1,5 @@
 import { personalInfo } from '../data/content';
+import ThemeToggle from './ThemeToggle';
 
 const Nav = () => {
   return (
@@ -8,6 +9,7 @@ const Nav = () => {
         <a href="#work">Work</a>
         <a href="#background">Background</a>
         <a href="#contact">Contact</a>
+        <ThemeToggle />
       </div>
     </nav>
   );
