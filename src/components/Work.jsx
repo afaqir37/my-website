@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import { projects } from '../data/content';
 
 const CountUpStat = ({ value, label }) => {
@@ -56,9 +57,31 @@ const CountUpStat = ({ value, label }) => {
   );
 };
 
+const projectVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.5, ease: 'easeOut' }
+  }
+};
+
 const Project = ({ project }) => {
   return (
-    <article className="project">
+    <motion.article
+      className="project"
+      variants={projectVariants}
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, margin: '-50px' }}
+    >
+      {project.logo && (
+        <img
+          src={project.logo}
+          alt={`${project.title} logo`}
+          className="project-logo"
+        />
+      )}
       <h2>{project.title}</h2>
       <p className="project-meta">{project.meta}</p>
 
@@ -80,12 +103,13 @@ const Project = ({ project }) => {
       )}
 
       {project.challenges && (
-        <div className="project-details">
+        <div className="project-challenges">
+          <p className="challenges-label">Problems I solved</p>
           {project.challenges.map((challenge, index) => (
-            <React.Fragment key={index}>
+            <div key={index} className="challenge-teaser">
               <h3>{challenge.title}</h3>
-              <p dangerouslySetInnerHTML={{ __html: challenge.text }} />
-            </React.Fragment>
+              <p>{challenge.hook}</p>
+            </div>
           ))}
         </div>
       )}
@@ -94,10 +118,10 @@ const Project = ({ project }) => {
 
       {project.caseStudyLink && (
         <Link to={project.caseStudyLink} className="case-study-link">
-          Read the full case study →
+          See how I solved them →
         </Link>
       )}
-    </article>
+    </motion.article>
   );
 };
 
@@ -105,7 +129,15 @@ const Work = () => {
   return (
     <section id="work">
       <div className="container">
-        <p className="section-title">Selected Work</p>
+        <motion.p
+          className="section-title"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.4 }}
+        >
+          Selected Work
+        </motion.p>
         {projects.map((project, index) => (
           <Project key={index} project={project} />
         ))}

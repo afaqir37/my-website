@@ -1,8 +1,8 @@
 :root {
-  --bg: #111111;
-  --bg-subtle: #1a1a1a;
-  --border: #2a2a2a;
-  --border-light: #3a3a3a;
+  --bg: #0a0f1a;
+  --bg-subtle: #111827;
+  --border: #1e293b;
+  --border-light: #334155;
   --text: #e8e8e8;
   --text-muted: #888888;
   --accent: #2dd4bf;
@@ -43,7 +43,8 @@ body {
   background: var(--bg);
   color: var(--text);
   font-size: 17px;
-  line-height: 1.7;
+  line-height: 1.6;
+  letter-spacing: -0.01em;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -95,9 +96,27 @@ a:not(.nav-logo):not(.back-link):hover {
 }
 
 .nav-logo {
-  font-family: var(--serif);
-  font-size: 1.125rem;
+  font-family: 'Instrument Serif', serif;
+  font-size: 1.35rem;
   text-decoration: none;
+  letter-spacing: -0.01em;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+}
+
+.hand-drawn-underline {
+  width: 100%;
+  height: 6px;
+  color: var(--accent);
+  opacity: 0.7;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.nav-logo:hover .hand-drawn-underline {
+  opacity: 1;
+  transform: translateX(2px);
 }
 
 .nav-links {
@@ -130,17 +149,56 @@ a:not(.nav-logo):not(.back-link):hover {
   color: var(--text);
 }
 
+.intro-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 48px;
+}
+
 .intro {
-  max-width: 560px;
+  flex: 1;
+}
+
+.intro-description {
+  max-width: 540px;
+}
+
+.intro-portrait {
+  flex-shrink: 0;
+  width: 240px;
+}
+
+.intro-portrait img {
+  width: 100%;
+  height: auto;
+  border-radius: 4px;
+  filter: grayscale(20%);
+  transition: filter 0.3s ease;
+}
+
+.intro-portrait img:hover {
+  filter: grayscale(0%);
+}
+
+@media (max-width: 768px) {
+  .intro-wrapper {
+    flex-direction: column-reverse;
+    gap: 32px;
+  }
+
+  .intro-portrait {
+    width: 120px;
+  }
 }
 
 .intro h1 {
   font-family: var(--serif);
   font-size: clamp(2.5rem, 8vw, 4rem);
   font-weight: 400;
-  line-height: 1.05;
-  letter-spacing: -0.03em;
-  margin-bottom: 40px;
+  line-height: 1.02;
+  letter-spacing: -0.035em;
+  margin-bottom: 56px;
   animation: fadeInUp 0.6s ease-out;
 }
 
@@ -156,9 +214,9 @@ a:not(.nav-logo):not(.back-link):hover {
 }
 
 .intro p {
-  font-size: 1.1875rem;
+  font-size: 1.125rem;
   color: var(--text-muted);
-  line-height: 1.8;
+  line-height: 1.65;
   max-width: 540px;
   animation: fadeInUp 0.6s ease-out 0.1s both;
 }
@@ -168,6 +226,10 @@ a:not(.nav-logo):not(.back-link):hover {
   font-weight: 500;
 }
 
+.highlight {
+  color: var(--accent);
+}
+
 /* Section */
 section {
   padding: 80px 0;
@@ -175,12 +237,41 @@ section {
 
 .section-title {
   font-family: var(--serif);
-  font-size: 0.875rem;
+  font-size: 0.8125rem;
   font-weight: 400;
   color: var(--text-muted);
-  letter-spacing: 0.05em;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   margin-bottom: 48px;
+}
+
+.fortytwo-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 48px;
+}
+
+.fortytwo-text {
+  flex: 1;
+}
+
+.fortytwo-logo {
+  height: 64px;
+  width: auto;
+  flex-shrink: 0;
+}
+
+@media (max-width: 600px) {
+  .fortytwo-content {
+    flex-direction: column;
+    gap: 32px;
+  }
+
+  .fortytwo-logo {
+    height: 48px;
+    align-self: flex-start;
+  }
 }
 
 /* Project */
@@ -192,25 +283,32 @@ section {
   margin-bottom: 0;
 }
 
+.project-logo {
+  height: 64px;
+  width: auto;
+  margin-bottom: 20px;
+}
+
 .project h2 {
   font-family: var(--serif);
   font-size: clamp(1.75rem, 5vw, 2.5rem);
   font-weight: 400;
-  line-height: 1.15;
-  letter-spacing: -0.02em;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
   margin-bottom: 12px;
 }
 
 .project-meta {
-  font-size: 0.9rem;
+  font-size: 0.875rem;
   color: var(--text-muted);
+  letter-spacing: 0.01em;
   margin-bottom: 24px;
 }
 
 .project-description {
-  font-size: 1.0625rem;
+  font-size: 1rem;
   color: var(--text-muted);
-  line-height: 1.8;
+  line-height: 1.65;
   margin-bottom: 32px;
 }
 
@@ -243,55 +341,62 @@ section {
 
 .stat-value {
   font-family: var(--serif);
-  font-size: 2.25rem;
+  font-size: 2.5rem;
   font-weight: 400;
-  letter-spacing: -0.03em;
+  letter-spacing: -0.04em;
   line-height: 1;
 }
 
 .stat-label {
-  font-size: 0.8rem;
+  font-size: 0.75rem;
   color: var(--text-muted);
+  letter-spacing: 0.03em;
+  margin-top: 4px;
 }
 
-/* Project details */
-.project-details {
+/* Challenge teasers */
+.project-challenges {
   margin-top: 48px;
   padding-top: 40px;
   border-top: 1px solid var(--border);
 }
 
-.project-details h3 {
-  font-family: var(--serif);
-  font-size: 1.375rem;
-  font-weight: 400;
-  color: var(--text);
-  margin-top: 40px;
+.challenges-label {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--accent);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 24px;
+}
+
+.challenge-teaser {
   margin-bottom: 20px;
 }
 
-.project-details h3:first-child {
-  margin-top: 0;
+.challenge-teaser:last-child {
+  margin-bottom: 0;
 }
 
-.project-details p {
-  color: var(--text-muted);
-  line-height: 1.8;
-  margin-bottom: 16px;
-}
-
-.project-details code {
-  font-family: 'SF Mono', 'Fira Code', monospace;
-  font-size: 0.9em;
+.challenge-teaser h3 {
+  font-family: var(--serif);
+  font-size: 1.125rem;
+  font-weight: 400;
   color: var(--text);
-  background: rgba(255, 255, 255, 0.08);
-  padding: 2px 6px;
-  border-radius: 3px;
+  letter-spacing: -0.01em;
+  margin-bottom: 6px;
+}
+
+.challenge-teaser p {
+  font-size: 0.9375rem;
+  color: var(--text-muted);
+  line-height: 1.5;
 }
 
 .tech-list {
-  font-size: 0.9rem;
+  font-size: 0.8125rem;
   color: var(--text-muted);
+  letter-spacing: 0.02em;
   margin-top: 24px;
 }
 
@@ -354,7 +459,7 @@ section {
 .timeline-track {
   display: flex;
   gap: 20px;
-  padding: 0 calc(50vw - 340px);
+  padding: 0 calc(50vw - 340px) 0 24px;
   position: relative;
   width: max-content;
 }
@@ -362,7 +467,7 @@ section {
 .timeline-progress {
   position: absolute;
   top: 28px;
-  left: calc(50vw - 340px + 28px);
+  left: 52px;
   right: calc(50vw - 340px + 28px);
   height: 2px;
   background: linear-gradient(90deg,
@@ -676,6 +781,21 @@ section {
   display: flex;
   gap: 24px;
   font-size: 0.9rem;
+}
+
+.contact-links a {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.contact-links a svg {
+  opacity: 0.7;
+  transition: opacity 0.2s ease;
+}
+
+.contact-links a:hover svg {
+  opacity: 1;
 }
 
 /* Footer */

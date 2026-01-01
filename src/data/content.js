@@ -1,12 +1,12 @@
 export const personalInfo = {
-  name: "Abdellah",
+  name: "Abdellah Faqir",
   email: "faqiirabdellah@gmail.com",
   github: "https://github.com/yourusername",
   linkedin: "https://linkedin.com/in/yourusername",
 };
 
 export const introText = {
-  headline: `Hey, I'm Abdellah. <br>I write code that ships to production.`,
+  headline: `Hey, I'm Abdellah. <br>I write code that ships to <span class="highlight">production</span>.`,
   description: `I spent three years at <strong>42</strong> learning to build everything from scratch —
     memory allocators, shells, game engines. Then I joined two startups as the sole engineer,
     turning ideas into shipped products with <strong>95,000+ lines of production code</strong>.`,
@@ -15,6 +15,7 @@ export const introText = {
 export const projects = [
 {
   title: "WashMinute",
+  logo: "/assets/logo-dark.png",
   meta: "On-demand car wash platform · Sole Engineer · 2023–2024",
   description: `A two-sided marketplace connecting customers with car washers in Morocco. 
     Users book washes at their location, washmen receive real-time requests based on proximity, 
@@ -29,19 +30,11 @@ export const projects = [
   challenges: [
     {
       title: "Geolocation that actually scales",
-      text: `The first version calculated distances on the client — every washman's app constantly pinging the API, checking "am I close enough?" It worked in testing. In production, it drained batteries in two hours and burned through API quota in a day.
-
-I rebuilt it with PostGIS on the server. <code>ST_DWithin</code> for radius filtering with GiST indexes, <code>ST_Distance</code> with Web Mercator projection for accurate meters, progressive radius expansion (5km → 10km → 15km → 20km). One spatial query figures out who's nearby, Socket.io pushes only to those devices.
-
-The result: 95% reduction in query time (sub-100ms even with thousands of providers), 80% fewer API calls, and phones that last all day.`,
+      hook: "The first version drained phone batteries in two hours. Production broke everything we thought worked.",
     },
     {
       title: "Payments with no room for error",
-      text: `NAPS (Morocco's payment gateway) has minimal documentation and no sandbox. The integration required RSA-2048 encryption for payment data, MD5 MAC generation for request signing, OAuth-style token exchange, and deep linking back to the app.
-
-The tricky part was preventing double-charges. Payment callbacks can hit multiple times, so I built idempotency checks on orderId, database-level unique constraints, and status verification before processing. The system also handles saved card tokenization for one-click payments and automatic subscription renewals with commission tracking.
-
-It works. No failed payments, no double-charges, no angry customers.`,
+      hook: "Morocco's payment gateway has no sandbox. Our first real test was with real money.",
     },
   ],
   tech: "Built with React Native, Expo, TypeScript, Node.js, PostgreSQL, PostGIS, Socket.io, AWS Cognito, S3, NAPS",

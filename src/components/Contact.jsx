@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { motion } from 'framer-motion';
+import { Mail, Github, Linkedin } from 'lucide-react';
 import { personalInfo } from '../data/content';
 
 const Contact = () => {
@@ -62,14 +64,35 @@ const Contact = () => {
   return (
     <section id="contact">
       <div className="container">
-        <p className="section-title">Contact</p>
-        
-        <p className="contact-intro">
-          I'm open to new opportunities — full-time roles, contracts, or interesting projects. 
-          If you're looking for someone who ships production code, let's talk.
-        </p>
+        <motion.p
+          className="section-title"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.4 }}
+        >
+          Contact
+        </motion.p>
 
-        <form className="contact-form" onSubmit={handleSubmit}>
+        <motion.p
+          className="contact-intro"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, ease: 'easeOut' }}
+        >
+          I'm open to new opportunities — full-time roles, contracts, or interesting projects.
+          If you're looking for someone who ships production code, let's talk.
+        </motion.p>
+
+        <motion.form
+          className="contact-form"
+          onSubmit={handleSubmit}
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, delay: 0.1, ease: 'easeOut' }}
+        >
           <div className="form-group">
             <label htmlFor="name">Name</label>
             <input
@@ -121,14 +144,23 @@ const Contact = () => {
               {status.message}
             </div>
           )}
-        </form>
+        </motion.form>
 
         <div className="contact-alt">
           <p>Or reach out directly:</p>
           <div className="contact-links">
-            <a href={`mailto:${personalInfo.email}`}>{personalInfo.email}</a>
-            <a href={personalInfo.github}>GitHub</a>
-            <a href={personalInfo.linkedin}>LinkedIn</a>
+            <a href={`mailto:${personalInfo.email}`}>
+              <Mail size={18} />
+              <span>{personalInfo.email}</span>
+            </a>
+            <a href={personalInfo.github} target="_blank" rel="noopener noreferrer">
+              <Github size={18} />
+              <span>GitHub</span>
+            </a>
+            <a href={personalInfo.linkedin} target="_blank" rel="noopener noreferrer">
+              <Linkedin size={18} />
+              <span>LinkedIn</span>
+            </a>
           </div>
         </div>
       </div>
