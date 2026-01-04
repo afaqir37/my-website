@@ -84,6 +84,14 @@
   display: block;
 }
 
+.case-study-title-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+  margin-bottom: 24px;
+}
+
 .case-study-header h1 {
   font-family: var(--serif);
   font-size: clamp(2.5rem, 8vw, 4rem);
@@ -91,7 +99,13 @@
   line-height: 1.15;
   letter-spacing: -0.02em;
   color: var(--text);
-  margin-bottom: 24px;
+  margin-bottom: 0;
+}
+
+.case-study-logo {
+  width: clamp(80px, 15vw, 120px);
+  height: auto;
+  flex-shrink: 0;
 }
 
 .case-study-subtitle {
@@ -252,6 +266,14 @@
 
   .case-study-nav-title {
     display: none;
+  }
+
+  .case-study-title-container {
+    gap: 16px;
+  }
+
+  .case-study-logo {
+    width: clamp(60px, 20vw, 90px);
   }
 
   .case-study-body {

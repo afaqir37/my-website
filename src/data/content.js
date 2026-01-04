@@ -17,15 +17,10 @@ export const projects = [
   title: "WashMinute",
   logo: "/assets/logo-dark.png",
   meta: "On-demand car wash platform · Sole Engineer · 2023–2024",
-  description: `A two-sided marketplace connecting customers with car washers in Morocco. 
-    Users book washes at their location, washmen receive real-time requests based on proximity, 
-    payments happen in-app. I built <strong>everything</strong> — both mobile apps, the backend, 
+  description: `A two-sided marketplace connecting customers with car washers in Morocco.
+    Users book washes at their location, washmen receive real-time requests based on proximity,
+    payments happen in-app. I built <strong>everything</strong> — both mobile apps, the backend,
     the admin dashboard.`,
-  stats: [
-    { value: "95k", label: "Lines of code" },
-    { value: "300+", label: "Files" },
-    { value: "3", label: "Languages" },
-  ],
   intro: `The hard part wasn't building features — it was making them work reliably when real people depend on them.`,
   challenges: [
     {
