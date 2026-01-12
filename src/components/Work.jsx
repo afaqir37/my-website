@@ -104,7 +104,7 @@ const Project = ({ project }) => {
 
       {project.challenges && (
         <div className="project-challenges">
-          <p className="challenges-label">Problems I solved</p>
+          <p className="challenges-label">Technical Challenges</p>
           {project.challenges.map((challenge, index) => (
             <div key={index} className="challenge-teaser">
               <h3>{challenge.title}</h3>
@@ -118,7 +118,7 @@ const Project = ({ project }) => {
 
       {project.caseStudyLink && (
         <Link to={project.caseStudyLink} className="case-study-link">
-          See how I solved them →
+          Read full case study →
         </Link>
       )}
     </motion.article>

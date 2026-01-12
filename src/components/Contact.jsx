@@ -81,8 +81,8 @@ const Contact = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.5, ease: 'easeOut' }}
         >
-          I'm open to new opportunities — full-time roles, contracts, or interesting projects.
-          If you're looking for someone who ships production code, let's talk.
+          Available for full-stack engineering roles and contract projects.
+          Specialized in marketplace platforms, real-time systems, and payment infrastructure.
         </motion.p>
 
         <motion.form

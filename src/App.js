@@ -6,7 +6,8 @@ import Work from './components/Work';
 import FortyTwo from './components/FortyTwo';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
-import CaseStudy from './components/CaseStudy';
+import WashMinuteCaseStudy from './components/WashMinuteCaseStudy';
+import ScrollToTop from './components/ScrollToTop';
 import './styles/index.css';
 
 const pageVariants = {
@@ -47,7 +48,7 @@ function CaseStudyPage() {
       exit="exit"
       transition={pageTransition}
     >
-      <CaseStudy />
+      <WashMinuteCaseStudy />
     </motion.div>
   );
 }
@@ -68,6 +69,7 @@ function AnimatedRoutes() {
 function App() {
   return (
     <BrowserRouter>
+      <ScrollToTop />
       <AnimatedRoutes />
     </BrowserRouter>
   );
