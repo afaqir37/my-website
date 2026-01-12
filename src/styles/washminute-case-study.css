@@ -17,12 +17,20 @@
 
 /* Navigation */
 .wm-nav {
+  position: -webkit-sticky; /* Safari */
   position: sticky;
   top: 0;
   background: var(--bg);
   border-bottom: 1px solid var(--border);
   z-index: 100;
   backdrop-filter: blur(8px);
+}
+
+/* Fallback for browsers without backdrop-filter support */
+@supports not (backdrop-filter: blur(8px)) {
+  .wm-nav {
+    background: var(--bg); /* Solid background fallback */
+  }
 }
 
 .wm-nav .wm-nav-container {

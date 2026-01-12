@@ -8,7 +8,7 @@
   --border: #1e293b;
   --border-light: #334155;
   --text: #e8e8e8;
-  --text-muted: #888888;
+  --text-muted: #9a9a9a; /* Updated for WCAG AA contrast (4.5:1 minimum) */
   --accent: #2dd4bf;
   --accent-green: #4ade80;
   --serif: 'Newsreader', Georgia, serif;
@@ -42,9 +42,24 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Reduced motion support for accessibility */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
 body {
+  font-family: 'Space Grotesk', -apple-system, sans-serif; /* Fallback */
   font-family: var(--sans);
+  background: #0a0f1a; /* Fallback for dark theme */
   background: var(--bg);
+  color: #e8e8e8; /* Fallback for dark theme */
   color: var(--text);
   font-size: 17px;
   line-height: 1.6;
@@ -74,6 +89,35 @@ a:not(.nav-logo):not(.back-link) {
 
 a:not(.nav-logo):not(.back-link):hover {
   background-size: 100% 1px;
+}
+
+/* Skip link for accessibility */
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 0;
+  background: var(--accent);
+  color: var(--bg);
+  padding: 8px 16px;
+  text-decoration: none;
+  z-index: 100;
+  border-radius: 0 0 4px 0;
+  font-weight: 500;
+}
+
+.skip-link:focus {
+  top: 0;
+}
+
+/* Focus indicators for keyboard navigation */
+*:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+*:focus:not(:focus-visible) {
+  outline: none;
 }
 
 /* Layout */
@@ -131,6 +175,107 @@ a:not(.nav-logo):not(.back-link):hover {
   color: var(--text);
 }
 
+/* Mobile controls (theme toggle + hamburger) - hidden on desktop */
+.mobile-controls {
+  display: none;
+  align-items: center;
+  gap: 12px;
+}
+
+.hamburger {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  z-index: 1001;
+}
+
+.hamburger span {
+  width: 24px;
+  height: 2px;
+  background: var(--text);
+  transition: all 0.3s ease;
+  border-radius: 2px;
+}
+
+/* Hamburger animation when active */
+.hamburger.active span:nth-child(1) {
+  transform: rotate(45deg) translate(7px, 7px);
+}
+
+.hamburger.active span:nth-child(2) {
+  opacity: 0;
+}
+
+.hamburger.active span:nth-child(3) {
+  transform: rotate(-45deg) translate(7px, -7px);
+}
+
+/* Mobile menu */
+.mobile-menu {
+  position: fixed;
+  top: 0;
+  right: -100%;
+  width: 280px;
+  height: 100vh;
+  background: var(--bg);
+  border-left: 1px solid var(--border);
+  z-index: 1000;
+  transition: right 0.3s ease;
+  padding: 80px 32px 32px;
+}
+
+.mobile-menu.active {
+  right: 0;
+}
+
+.mobile-menu-links {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.mobile-menu-links a {
+  font-size: 1.25rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 500;
+  color: var(--text-muted);
+  transition: color 0.2s ease;
+}
+
+.mobile-menu-links a:hover {
+  color: var(--text);
+}
+
+/* Menu overlay */
+.menu-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  z-index: 999;
+  animation: fadeIn 0.3s ease;
+}
+
+/* Fallback for browsers without backdrop-filter */
+@supports not (backdrop-filter: blur(4px)) {
+  .menu-overlay {
+    background: rgba(0, 0, 0, 0.7);
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
 .intro-wrapper {
   display: flex;
   justify-content: space-between;
@@ -164,6 +309,20 @@ a:not(.nav-logo):not(.back-link):hover {
 }
 
 @media (max-width: 768px) {
+  /* Show mobile controls, hide desktop nav */
+  .desktop-nav {
+    display: none;
+  }
+
+  .mobile-controls {
+    display: flex;
+  }
+
+  /* Center align nav items on mobile */
+  .header nav {
+    align-items: center;
+  }
+
   .intro-wrapper {
     flex-direction: column-reverse;
     gap: 32px;
@@ -176,6 +335,7 @@ a:not(.nav-logo):not(.back-link):hover {
 
 .intro h1 {
   font-family: var(--serif);
+  font-size: 3rem; /* Fallback for browsers without clamp() */
   font-size: clamp(2.5rem, 8vw, 4rem);
   font-weight: 400;
   line-height: 1.02;
@@ -275,7 +435,7 @@ section {
 /* WashMinute logo - positioned on the right */
 #work .project:first-of-type .project-logo {
   position: absolute;
-  top: 0;
+  top: -12px; /* Positioned slightly higher */
   right: 0;
   height: 80px;
   margin-bottom: 0;
@@ -284,6 +444,7 @@ section {
 
 .project h2 {
   font-family: var(--serif);
+  font-size: 2rem; /* Fallback for browsers without clamp() */
   font-size: clamp(1.75rem, 5vw, 2.5rem);
   font-weight: 400;
   line-height: 1.1;
@@ -458,6 +619,8 @@ section {
   margin-top: 24px;
   scrollbar-width: thin;
   scrollbar-color: var(--border-light) transparent;
+  -webkit-overflow-scrolling: touch; /* Smooth momentum scrolling on iOS */
+  scroll-snap-type: x mandatory; /* Snap to each card */
 }
 
 .timeline-scroll-container::-webkit-scrollbar {
@@ -504,6 +667,7 @@ section {
   flex-direction: column;
   align-items: center;
   gap: 14px;
+  scroll-snap-align: center; /* Snap to center of level cards when scrolling */
 }
 
 .level-marker {
@@ -570,11 +734,37 @@ section {
   border-radius: 10px;
   padding: 24px;
   transition: all 0.3s ease;
+  will-change: transform, box-shadow;
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  background-image: none !important;
 }
 
+/* Clickable card styles */
+.clickable-card {
+  cursor: pointer;
+}
+
+.clickable-card:hover {
+  border-color: var(--accent);
+}
+
+/* Animation states */
 .level-card:hover {
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  will-change: auto; /* Remove will-change after interaction */
+}
+
+/* Remove default link styling for card links */
+a.level-card h4 {
+  color: var(--text);
+  text-decoration: none;
+}
+
+a.level-card:hover h4 {
+  color: var(--accent);
 }
 
 .level.major .level-card {
@@ -691,6 +881,37 @@ section {
   color: var(--text-muted);
 }
 
+/* Carousel Pagination (Mobile only) */
+.carousel-pagination {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  padding: 24px 0;
+  margin-top: -20px;
+}
+
+.pagination-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--border-light);
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  padding: 0;
+}
+
+.pagination-dot:hover {
+  background: var(--text-muted);
+  transform: scale(1.2);
+}
+
+.pagination-dot.active {
+  background: var(--accent);
+  width: 24px;
+  border-radius: 4px;
+}
+
 /* GitHub Activity */
 .github-activity {
   margin-top: 80px;
@@ -749,9 +970,68 @@ section {
 }
 
 @media (max-width: 768px) {
+  /* Hide scroll hint on mobile, show pagination instead */
+  .scroll-hint {
+    display: none;
+  }
+
+  /* Hide timeline progress bar on mobile */
+  .timeline-progress {
+    display: none;
+  }
+
+  /* Transform timeline into carousel on mobile */
+  .timeline-scroll-container {
+    padding: 40px 0 20px;
+    scroll-padding: 0 24px; /* Padding for peek effect */
+    overflow-x: scroll;
+    scroll-snap-type: x mandatory;
+    position: relative;
+  }
+
+  /* Gradient fade on right edge to indicate more content */
+  .timeline-scroll-container::after {
+    content: '';
+    position: absolute;
+    top: 40px;
+    right: 0;
+    width: 60px;
+    height: calc(100% - 60px);
+    background: linear-gradient(to left, var(--bg), transparent);
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .timeline-track {
+    display: flex;
+    gap: 16px;
+    padding: 0 24px;
+    align-items: flex-start;
+  }
+
+  /* Card takes most of screen width with peek effect */
+  .level {
+    flex-shrink: 0;
+    width: calc(100vw - 80px); /* Leave space for peek */
+    scroll-snap-align: center;
+    scroll-snap-stop: always;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+
+  .level-card {
+    width: 100%;
+    max-width: 100%;
+    padding: 24px;
+  }
+
+  /* Adjust level marker for vertical layout */
+  .level-marker {
+    margin-bottom: 16px;
+  }
+
   .github-activity {
-    margin-top: 60px;
-    padding-top: 60px;
+    margin-top: 40px;
+    padding-top: 40px;
   }
 
   .github-calendar-wrapper {
@@ -781,13 +1061,14 @@ section {
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  padding: 14px 28px;
+  padding: 0px 28px;
   background: var(--accent);
   color: var(--bg);
   border-radius: 8px;
   font-size: 0.9375rem;
   font-weight: 500;
   transition: opacity 0.2s ease, transform 0.1s ease;
+  background-image: none !important;
 }
 
 .schedule-call-btn:hover {
@@ -968,10 +1249,15 @@ section {
     padding: 60px 0;
   }
 
-  /* Scale down WashMinute logo on mobile */
+  /* Left-align WashMinute logo on mobile */
   #work .project:first-of-type .project-logo {
-    height: 120px;
-    opacity: 0.7;
+    position: relative;
+    height: 64px;
+    top: auto;
+    right: auto;
+    display: block;
+    margin: 0 0 24px 0;
+    opacity: 0.8;
   }
 
   .stats {
@@ -1050,6 +1336,7 @@ section {
 
 .case-study-header h1 {
   font-family: var(--serif);
+  font-size: 3rem; /* Fallback for browsers without clamp() */
   font-size: clamp(2.5rem, 8vw, 4rem);
   font-weight: 400;
   letter-spacing: -0.02em;
@@ -1162,5 +1449,90 @@ section {
   
   .case-study-section {
     margin-bottom: 48px;
+  }
+}
+
+/* Additional breakpoint for very small screens */
+@media (max-width: 375px) {
+  /* Keep logo left-aligned but slightly smaller on very small screens */
+  #work .project:first-of-type .project-logo {
+    height: 56px;
+    margin-bottom: 20px;
+  }
+
+  .nav-links {
+    gap: 16px;
+    font-size: 0.8rem;
+  }
+}
+
+/* Touch target optimization for mobile devices */
+@media (pointer: coarse) {
+  button,
+  a,
+  input,
+  textarea,
+  select {
+    min-height: 44px;
+  }
+
+  .nav-links a {
+    padding: 12px 0;
+  }
+
+  button,
+  input[type="submit"] {
+    min-width: 44px;
+    padding: 12px 24px;
+  }
+}
+
+/* Hover effects only for devices with hover capability */
+@media (hover: hover) and (pointer: fine) {
+  a:not(.nav-logo):not(.back-link):not(.level-card):hover {
+    background-size: 100% 1px;
+  }
+
+  .level-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  }
+
+  .clickable-card:hover {
+    border-color: var(--accent);
+  }
+
+  .project-logo:hover {
+    transform: scale(1.05);
+  }
+
+  .theme-toggle:hover {
+    transform: scale(1.1);
+  }
+
+  button:hover,
+  .case-study-link:hover {
+    opacity: 0.9;
+  }
+}
+
+/* Touch device active states */
+@media (hover: none) and (pointer: coarse) {
+  .level-card:active {
+    transform: scale(0.98);
+  }
+
+  .clickable-card:active {
+    border-color: var(--accent);
+    transform: scale(0.98);
+  }
+
+  button:active,
+  .case-study-link:active {
+    opacity: 0.8;
+  }
+
+  .theme-toggle:active {
+    transform: scale(0.95);
   }
 }

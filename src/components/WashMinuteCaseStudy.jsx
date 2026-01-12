@@ -385,6 +385,8 @@ CREATE INDEX washmen_last_loc_gix ON washmen USING GIST (last_location);`;
                 src="/assets/logo-dark.png"
                 alt="WashMinute Logo"
                 className="h-20 md:h-24 lg:h-32 object-contain flex-shrink-0"
+                loading="lazy"
+                decoding="async"
               />
             </div>
             <motion.p
@@ -497,9 +499,9 @@ CREATE INDEX washmen_last_loc_gix ON washmen USING GIST (last_location);`;
           </div>
 
           {/* Interactive Visualization */}
-          <div className="mb-12">
+          {/* <div className="mb-12">
             <GeolocationVisualizer />
-          </div>
+          </div> */}
 
           <div className="mb-8">
             <h4 className="text-xs text-foreground-muted uppercase tracking-wider mb-4 font-medium">Technical Highlights</h4>
@@ -535,9 +537,9 @@ CREATE INDEX washmen_last_loc_gix ON washmen USING GIST (last_location);`;
           </div>
 
           {/* Performance Chart */}
-          <div>
+          {/* <div>
             <PerformanceChart />
-          </div>
+          </div> */}
         </section>
 
         {/* Section 3: Payments */}
@@ -1062,7 +1064,7 @@ const checkForUpdates = async () => {
 
       {/* Footer CTA */}
      <footer className="border-t border-border bg-background-subtle">
-        <div className="px-8 md:px-16 lg:px-24 py-20 flex justify-center">
+        <div className="px-8 md:px-16 lg:px-24 py-20 flex justify-center ">
           <div className="max-w-2xl text-center">
             <h2 className="font-serif text-3xl md:text-4xl font-normal tracking-tight mb-4">
               Available for Full-Stack Roles
@@ -1073,17 +1075,17 @@ const checkForUpdates = async () => {
             <div className="flex gap-4 flex-wrap justify-center">
               <Link
                 to="/#contact"
-                className="px-6 py-3 flex items-center justify-center bg-foreground text-background rounded-lg text-sm font-medium hover:opacity-90 transition-opacity"
+                className="px-6 flex items-center justify-center bg-foreground text-background rounded-lg text-sm font-medium hover:opacity-90 transition-opacity"
                 style={{ textDecoration: 'none', backgroundImage: 'none' }}
               >
-                Get in touch
+                <span className="p-2">Get in touch</span>
               </Link>
               <Link
                 to="/"
-                className="px-6 py-3 flex items-center justify-center border border-border rounded-lg text-sm font-medium text-foreground hover:bg-background-subtle transition-colors"
+                className="px-6  flex items-center justify-center border border-border rounded-lg text-sm font-medium text-foreground hover:bg-background-subtle transition-colors"
                 style={{ textDecoration: 'none', backgroundImage: 'none' }}
               >
-                Back to home
+                <span className="p-2">Back to home</span>
               </Link>
             </div>
           </div>

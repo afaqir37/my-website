@@ -4,6 +4,9 @@ import { introText } from '../data/content';
 const Header = () => {
   return (
     <header className="header">
+      <a href="#main-content" className="skip-link">
+        Skip to main content
+      </a>
       <div className="container container--wide">
         <Nav />
         <div className="intro-wrapper">
@@ -15,6 +18,10 @@ const Header = () => {
             <img
               src="/assets/self-portrait_1998.74.5.jpg"
               alt="Abdellah Faqir"
+              width="240"
+              height="320"
+              loading="lazy"
+              decoding="async"
             />
           </div>
         </div>

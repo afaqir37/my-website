@@ -131,7 +131,13 @@ const CaseStudy = () => {
           <span className="case-study-label">Case Study</span>
           <div className="case-study-title-container">
             <h1>{caseStudy.title}</h1>
-            <img src="/assets/logo-dark.png" alt="WashMinute Logo" className="case-study-logo" />
+            <img
+              src="/assets/logo-dark.png"
+              alt="WashMinute Logo"
+              className="case-study-logo"
+              loading="lazy"
+              decoding="async"
+            />
           </div>
           <p className="case-study-subtitle">{caseStudy.subtitle}</p>
           <p className="case-study-role">{caseStudy.role}</p>

@@ -31,7 +31,38 @@ const LevelCard = ({ project }) => {
   const cardClasses = [
     'level-card',
     project.type === 'end' && 'end-card',
+    (project.subjectPdf || project.type === 'start') && 'clickable-card',
   ].filter(Boolean).join(' ');
+
+  // Determine the link URL
+  const cardLink = project.type === 'start'
+    ? 'https://42.fr/admissions/42-piscine/'
+    : project.subjectPdf;
+
+  const cardContent = (
+    <>
+      {(project.phase || project.status) && (
+        <div className="card-header">
+          <span className="card-phase">{project.phase}</span>
+          <span className="card-status">{project.status}</span>
+        </div>
+      )}
+      <h4>{project.name}</h4>
+      <p>{project.description}</p>
+      {project.skills && project.skills.length > 0 && (
+        <div className="card-skills">
+          {project.skills.map((skill, index) => (
+            <span key={index}>{skill}</span>
+          ))}
+        </div>
+      )}
+      {project.outcome && (
+        <div className="card-outcome">
+          <span>{project.outcome}</span>
+        </div>
+      )}
+    </>
+  );
 
   return (
     <div className={levelClasses}>
@@ -39,36 +70,21 @@ const LevelCard = ({ project }) => {
         <div className="level-num">{project.num}</div>
         {project.type === 'final' && <span className="level-badge">FINAL</span>}
       </div>
-      <div className={cardClasses}>
-        {(project.phase || project.status) && (
-          <div className="card-header">
-            <span className="card-phase">{project.phase}</span>
-            <span className="card-status">{project.status}</span>
-          </div>
-        )}
-        <h4>
-          {project.subjectPdf ? (
-            <a href={project.subjectPdf} target="_blank" rel="noopener noreferrer">
-              {project.name}
-            </a>
-          ) : (
-            project.name
-          )}
-        </h4>
-        <p>{project.description}</p>
-        {project.skills && project.skills.length > 0 && (
-          <div className="card-skills">
-            {project.skills.map((skill, index) => (
-              <span key={index}>{skill}</span>
-            ))}
-          </div>
-        )}
-        {project.outcome && (
-          <div className="card-outcome">
-            <span>{project.outcome}</span>
-          </div>
-        )}
-      </div>
+      {cardLink ? (
+        <a
+          href={cardLink}
+          target="_blank"
+          rel="noopener noreferrer"
+          className={cardClasses}
+          aria-label={`View ${project.name} details`}
+        >
+          {cardContent}
+        </a>
+      ) : (
+        <div className={cardClasses}>
+          {cardContent}
+        </div>
+      )}
     </div>
   );
 };
@@ -77,6 +93,8 @@ const FortyTwo = () => {
   const [theme, setTheme] = useState('dark');
   const [githubData, setGithubData] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
     // Detect theme from document
@@ -96,6 +114,42 @@ const FortyTwo = () => {
 
     return () => observer.disconnect();
   }, []);
+
+  useEffect(() => {
+    // Detect if mobile screen
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  const goToSlide = (index) => {
+    setCurrentSlide(index);
+    if (isMobile) {
+      const container = document.querySelector('.timeline-track');
+      const card = container?.children[index + 1]; // +1 to skip progress bar
+      if (card) {
+        card.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+      }
+    }
+  };
+
+  const handleScroll = (e) => {
+    if (!isMobile) return;
+
+    const container = e.target;
+    const scrollLeft = container.scrollLeft;
+    const cardWidth = container.querySelector('.level')?.offsetWidth || 0;
+    const newSlide = Math.round(scrollLeft / cardWidth);
+
+    if (newSlide !== currentSlide && newSlide >= 0 && newSlide < fortyTwoProjects.length) {
+      setCurrentSlide(newSlide);
+    }
+  };
 
   useEffect(() => {
     // Fetch GitHub contribution data
@@ -152,7 +206,7 @@ const FortyTwo = () => {
         </motion.div>
       </div>
       
-      <div className="timeline-scroll-container">
+      <div className="timeline-scroll-container" onScroll={handleScroll}>
         <div className="timeline-track">
           <div className="timeline-progress" />
           {fortyTwoProjects.map((project, index) => (
@@ -160,6 +214,20 @@ const FortyTwo = () => {
           ))}
         </div>
       </div>
+
+      {/* Pagination dots for mobile carousel */}
+      {isMobile && (
+        <div className="carousel-pagination">
+          {fortyTwoProjects.map((_, index) => (
+            <button
+              key={index}
+              className={`pagination-dot ${index === currentSlide ? 'active' : ''}`}
+              onClick={() => goToSlide(index)}
+              aria-label={`Go to project ${index + 1}`}
+            />
+          ))}
+        </div>
+      )}
 
       <div className="container">
         <div className="fortytwo-summary">

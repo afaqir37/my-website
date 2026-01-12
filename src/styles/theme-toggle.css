@@ -9,11 +9,13 @@
   justify-content: center;
   transition: color 0.2s ease, transform 0.2s ease;
   border-radius: 6px;
+  will-change: transform, color;
 }
 
 .theme-toggle:hover {
   color: var(--text);
   transform: rotate(15deg);
+  will-change: auto;
 }
 
 .theme-toggle svg {

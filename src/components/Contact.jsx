@@ -115,7 +115,7 @@ const Contact = () => {
             className="schedule-call-btn"
           >
             <Calendar size={18} />
-            <span>Schedule a call</span>
+            <span className="p-3">Schedule a call</span>
           </a>
           <span className="contact-divider">or send a message below</span>
         </motion.div>
@@ -137,6 +137,9 @@ const Contact = () => {
               value={formData.name}
               onChange={handleChange}
               placeholder="Your name"
+              inputMode="text"
+              autoComplete="name"
+              aria-required="true"
               required
             />
           </div>
@@ -150,6 +153,9 @@ const Contact = () => {
               value={formData.email}
               onChange={handleChange}
               placeholder="your@email.com"
+              inputMode="email"
+              autoComplete="email"
+              aria-required="true"
               required
             />
           </div>
@@ -162,20 +168,24 @@ const Contact = () => {
               value={formData.message}
               onChange={handleChange}
               placeholder="Tell me about your project or opportunity..."
+              inputMode="text"
+              autoComplete="off"
+              aria-required="true"
               required
             />
           </div>
 
-          <button 
-            type="submit" 
+          <button
+            type="submit"
             className="form-submit"
             disabled={isSubmitting}
+            aria-label="Send message"
           >
             {isSubmitting ? 'Sending...' : 'Send Message'}
           </button>
 
           {status.message && (
-            <div className={`form-status ${status.type}`}>
+            <div className={`form-status ${status.type}`} role="status" aria-live="polite">
               {status.message}
             </div>
           )}

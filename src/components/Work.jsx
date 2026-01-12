@@ -80,6 +80,8 @@ const Project = ({ project }) => {
           src={project.logo}
           alt={`${project.title} logo`}
           className="project-logo"
+          loading="lazy"
+          decoding="async"
         />
       )}
       <h2>{project.title}</h2>
