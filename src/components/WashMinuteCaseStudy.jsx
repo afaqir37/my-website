@@ -155,7 +155,7 @@ CREATE INDEX washmen_last_loc_gix ON washmen USING GIST (last_location);`;
     .update(orderId + amount)
     .digest('hex');
 
-  // Create payment context for idempotency tracking
+  // Create payment context for tracking
   await PaymentContext.create({
     orderId,
     userCognitoId,
@@ -180,42 +180,38 @@ CREATE INDEX washmen_last_loc_gix ON washmen USING GIST (last_location);`;
   res.json({ linkacs: response.data.url, orderId });
 };`;
 
-  const idempotencyCode = `const handleSuccess = async (req, res) => {
-  const { orderId, userCognitoId } = req.query;
+  const callbackHandlingCode = `const handlePaymentCallback = async (req, res) => {
+  const { orderId, userCognitoId, status, tokenId } = req.query;
 
+  // Find payment context
   const context = await PaymentContext.findOne({
     where: { orderId, userCognitoId }
   });
 
-  // Critical: prevent duplicate processing
-  if (context.status === 'completed') {
-    console.log('Duplicate callback detected, ignoring');
-    return res.redirect(\`washminute://payment?status=success\`);
+  if (status === 'success') {
+    // Update order status to paid
+    await Order.update(
+      {
+        paymentStatus: 'paid',
+        paymentVerified: true,
+        tokenId: tokenId // Save tokenization for future one-click payments
+      },
+      { where: { id: orderId } }
+    );
+
+    // Update payment context status
+    await context.update({
+      status: 'completed',
+      completedAt: new Date()
+    });
+
+    // Deep link back to app with success
+    return res.redirect(\`washminute://payment?status=success&orderId=\${orderId}\`);
+  } else {
+    // Handle payment failure
+    await context.update({ status: 'failed' });
+    return res.redirect(\`washminute://payment?status=failed\`);
   }
-
-  // Atomic update with optimistic locking
-  const [rowsUpdated] = await PaymentContext.update(
-    { status: "completed", completed_at: new Date() },
-    {
-      where: {
-        orderId,
-        userCognitoId,
-        status: 'initiated' // Only update if still pending
-      }
-    }
-  );
-
-  if (rowsUpdated === 0) {
-    // Another process already completed this payment
-    return res.redirect(\`washminute://payment?status=success\`);
-  }
-
-  await Order.update(
-    { status: "paid", payment_verified: true },
-    { where: { id: orderId } }
-  );
-
-  return res.redirect(\`washminute://payment?status=success\`);
 };`;
 
   const socketCode = `io.on('connection', (socket) => {
@@ -553,8 +549,8 @@ CREATE INDEX washmen_last_loc_gix ON washmen USING GIST (last_location);`;
           </StoryBox> */}
 
           <div className="mt-8 p-6 bg-background-subtle border border-border rounded-lg mb-8">
-            <div className="text-xs text-destructive uppercase tracking-wider mb-2 font-medium">Critical Problem</div>
-            <p className="text-foreground-muted text-sm">Payment callbacks can be triggered multiple times (network retries, user refreshes), risking double-charges.</p>
+            <div className="text-xs text-accent uppercase tracking-wider mb-2 font-medium">Challenge</div>
+            <p className="text-foreground-muted text-sm">Integrate secure payment flow within React Native app using NAPS gateway requiring RSA-2048 encryption and OAuth-style token exchange.</p>
           </div>
 
           <div className="mb-8">
@@ -563,28 +559,28 @@ CREATE INDEX washmen_last_loc_gix ON washmen USING GIST (last_location);`;
           </div>
 
           <div className="mb-8">
-            <h4 className="text-base font-medium text-foreground mb-4">Idempotency System (Preventing Double-Charges)</h4>
-            <CodeBlock code={idempotencyCode} language="javascript" />
+            <h4 className="text-base font-medium text-foreground mb-4">Payment Callback Handling</h4>
+            <CodeBlock code={callbackHandlingCode} language="javascript" />
           </div>
 
           <div className="bg-accent/5 border border-accent/20 rounded-lg p-6">
-            <h4 className="text-xs text-accent uppercase tracking-wider mb-4 font-medium">Achievements</h4>
+            <h4 className="text-xs text-accent uppercase tracking-wider mb-4 font-medium">Implementation</h4>
             <ul className="space-y-2 text-sm text-foreground-muted">
               <li className="flex items-start gap-2">
                 <span className="text-accent-green">✓</span>
-                Zero double-charges with database-level idempotency
+                RSA-2048 encryption for payment data transmission
               </li>
               <li className="flex items-start gap-2">
                 <span className="text-accent-green">✓</span>
-                Secure token management with 24-hour expiry
+                MD5 MAC signatures for request authentication
               </li>
               <li className="flex items-start gap-2">
                 <span className="text-accent-green">✓</span>
-                One-click payments via card tokenization
+                WebView-based payment form with deep linking
               </li>
               <li className="flex items-start gap-2">
                 <span className="text-accent-green">✓</span>
-                Graceful handling of network retries and race conditions
+                Saved card tokenization for one-click payments
               </li>
             </ul>
           </div>
@@ -996,8 +992,8 @@ const checkForUpdates = async () => {
                 <p className="text-foreground-muted text-sm">Leveraging PostgreSQL's spatial indexing enabled sub-100ms performance at scale.</p>
               </div>
               <div>
-                <h4 className="text-foreground mb-2">Payment idempotency is non-negotiable</h4>
-                <p className="text-foreground-muted text-sm">Building idempotency from day one prevented costly double-charge issues.</p>
+                <h4 className="text-foreground mb-2">Cryptographic integration requires precision</h4>
+                <p className="text-foreground-muted text-sm">RSA-2048 encryption and OAuth-style token exchange demand careful implementation for secure payment processing.</p>
               </div>
               <div>
                 <h4 className="text-foreground mb-2">Event-driven architecture enables easy additions</h4>
@@ -1030,7 +1026,7 @@ const checkForUpdates = async () => {
             </div>
             <div className="flex items-start gap-2">
               <span className="text-accent-green">✓</span>
-              NAPS payment with idempotency
+              NAPS payment with RSA encryption
             </div>
             <div className="flex items-start gap-2">
               <span className="text-accent-green">✓</span>

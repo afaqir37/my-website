@@ -266,24 +266,24 @@ export const caseStudy = {
     {
       id: "payments",
       title: "Payment Integration",
-      intro: "NAPS is Morocco's national payment gateway. Integration requires RSA-2048 encryption and careful handling of payment callbacks.",
+      intro: "NAPS is Morocco's national payment gateway. Integration requires RSA-2048 encryption for secure payment data transmission and OAuth-style token exchange.",
       highlights: [
         "RSA-2048 encryption for payment data using Node's crypto module",
         "MD5 MAC generation for request signing",
         "OAuth-style token exchange with 24-hour secure tokens",
-        "WebView payment form in the app",
-        "Deep linking back: washminute://payment?status=success"
+        "WebView payment form embedded in the app",
+        "Deep linking for seamless return: washminute://payment?status=success"
       ],
-      problem: "Payment callbacks can hit multiple times (network retries, user refreshing). Risk of double-charges.",
-      solution: "Built idempotency system",
+      problem: "Integrating a secure payment flow within a React Native app while maintaining smooth UX.",
+      solution: "WebView-based approach with cryptographic security",
       solutionDetails: [
-        "Idempotency checks on orderId",
-        "Database-level unique constraints",
-        "Status verification before processing",
-        "Retry mechanism with exponential backoff (3 attempts)"
+        "RSA public key encryption before transmission",
+        "MD5 MAC signatures for request authentication",
+        "Secure token management with 24-hour expiry",
+        "Deep link handlers for payment completion callbacks"
       ],
-      description: "The system also handles saved card tokenization for one-click payments and automatic subscription renewals with washman commission tracking.",
-      result: "No failed payments. No double-charges. Money flows correctly."
+      description: "The system handles saved card tokenization for one-click payments and automatic subscription renewals with washman commission tracking.",
+      result: "Seamless payment flow with enterprise-grade security. Users can save cards for future bookings."
     },
     {
       id: "realtime",
@@ -374,8 +374,8 @@ export const caseStudy = {
           detail: "The client-side geolocation was 'simpler' but created a scaling wall. Sometimes you need the complex solution from the start."
         },
         {
-          takeaway: "Payment integrations are always harder than documented.",
-          detail: "Payment gateway integration requires careful attention to edge cases: network retries, callback ordering, and race conditions. Build idempotency from day one."
+          takeaway: "Payment integrations require careful security implementation.",
+          detail: "Cryptographic requirements like RSA-2048 encryption and OAuth-style flows need thorough understanding. WebView integration with deep linking requires careful state management."
         },
         {
           takeaway: "Timezones will break your cron jobs.",

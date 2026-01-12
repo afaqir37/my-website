@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { fortyTwoIntro, fortyTwoProjects, fortyTwoStats } from '../data/content';
+import { ActivityCalendar } from 'react-activity-calendar';
 
 const ArrowIcon = () => (
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -73,6 +74,54 @@ const LevelCard = ({ project }) => {
 };
 
 const FortyTwo = () => {
+  const [theme, setTheme] = useState('dark');
+  const [githubData, setGithubData] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    // Detect theme from document
+    const detectTheme = () => {
+      const currentTheme = document.documentElement.getAttribute('data-theme');
+      setTheme(currentTheme === 'light' ? 'light' : 'dark');
+    };
+
+    detectTheme();
+
+    // Listen for theme changes
+    const observer = new MutationObserver(detectTheme);
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['data-theme']
+    });
+
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    // Fetch GitHub contribution data
+    const fetchGitHubData = async () => {
+      try {
+        const response = await fetch('https://github-contributions-api.jogruber.de/v4/afaqir37?y=last');
+        const data = await response.json();
+
+        // Transform data to format expected by react-activity-calendar
+        const formattedData = data.contributions.map(day => ({
+          date: day.date,
+          count: day.count,
+          level: day.level
+        }));
+
+        setGithubData(formattedData);
+      } catch (error) {
+        console.error('Failed to fetch GitHub data:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchGitHubData();
+  }, []);
+
   return (
     <section id="background" className="fortytwo">
       <div className="container">
@@ -125,6 +174,54 @@ const FortyTwo = () => {
           </p> */}
         </div>
       </div>
+
+      {/* GitHub Activity - Full Width */}
+      <motion.div
+        className="github-activity"
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.5, ease: 'easeOut' }}
+      >
+        <div className="container">
+          <h3 className="github-activity-title">Recent Activity</h3>
+        </div>
+        {loading ? (
+          <div className="container">
+            <div className="github-loading">Loading contribution graph...</div>
+          </div>
+        ) : githubData ? (
+          <div className="github-calendar-wrapper">
+            <ActivityCalendar
+              data={githubData}
+              theme={{
+                light: ['#ebedf0', '#9be9a8', '#40c463', '#30a14e', '#216e39'],
+                dark: ['#161b22', '#0e4429', '#006d32', '#26a641', '#39d353']
+              }}
+              colorScheme={theme}
+              blockSize={11}
+              blockMargin={4}
+              fontSize={14}
+              hideColorLegend
+              showWeekdayLabels
+            />
+          </div>
+        ) : (
+          <div className="container">
+            <div className="github-error">Failed to load GitHub activity</div>
+          </div>
+        )}
+        <div className="container">
+          <a
+            href="https://github.com/afaqir37"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="github-link"
+          >
+            View GitHub profile →
+          </a>
+        </div>
+      </motion.div>
     </section>
   );
 };
