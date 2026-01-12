@@ -1,5 +1,5 @@
 {
-  "name": "abdellah-portfolio",                  // ← MUST match your exact project name in dashboard!
+  "name": "my-website",                  // ← MUST match your exact project name in dashboard!
   "compatibility_date": "2026-01-12",
   "assets": {
     "directory": "./build",                      // Your CRA output folder
